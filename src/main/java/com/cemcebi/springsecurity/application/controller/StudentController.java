@@ -25,6 +25,5 @@ public class StudentController {
                 .filter(student -> studentId.equals(student.getStudentId()))
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("Student" + studentId + "does not exists"));
-
     }
 }

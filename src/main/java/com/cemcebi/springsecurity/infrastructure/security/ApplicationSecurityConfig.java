@@ -26,7 +26,9 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http
+                .csrf().disable()
+                .authorizeRequests()
                 .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
                 .antMatchers("/api/**").hasRole(ApplicationUserRole.STUDENT.name())
                 .anyRequest()
@@ -39,15 +41,21 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     protected UserDetailsService userDetailsService() {
         UserDetails adamUser = User.builder()
-                .username("adam")
+                .username("anna")
                 .password(passwordEncoder.encode("password"))
                 .roles(ApplicationUserRole.STUDENT.name())
                 .build();
 
         UserDetails cemUser = User.builder()
-                .username("cem")
+                .username("linda")
                 .password(passwordEncoder.encode("password123"))
                 .roles(ApplicationUserRole.ADMIN.name())
+                .build();
+
+        UserDetails mikeUser = User.builder()
+                .username("tom")
+                .password(passwordEncoder.encode("password123"))
+                .roles(ApplicationUserRole.ADMINTRAINEE.name())
                 .build();
         return new InMemoryUserDetailsManager(adamUser, cemUser);
     }
